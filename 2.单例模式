@@ -1,0 +1,19 @@
+2. 实现Singleton模式
+  题目：设计一个类，我们只能生成该类的一个实例
+    潜在要求：①单例模式 ②多线程可用 ③高效率
+  实现：
+  public class SingletonTest{
+    private static volatile SingletonTest instance;
+    private SingletonTest(){
+    }
+    public static SingletonTest getInstance(){
+      if(instance==null){
+        synchronized(SingletonTest.class){
+          if(instance==null){
+            instance = new SingletonTest();
+          }
+        }
+      }
+      return instance;
+    }
+  } 
