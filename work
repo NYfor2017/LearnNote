@@ -1,0 +1,19 @@
+1 Oracle数据库的数据迁移到mysql数据库中
+  可以使用Oracle中的查询功能，将结果导出成sql文件之后，用notepad++转换编码方式，然后再导入mysql中。
+2 多表联结
+  在进行多表联结的时候，其联结条件的结果值最好是唯一的，也最好有相应的索引，不然①会发生笛卡尔积爆炸②速度会比较慢。
+  每张表的索引最好不要超过5个。
+3 接口设计
+  在进行接口设计的时候，多想想上游跟下游之间的数据关联。
+4 做excel导出功能
+  可以使用hutool。
+5 实现ueditor和freemarker重现页面
+  ueditor中需要注意在传输图片、音乐和视频的时候，要注意配置相关config文件路径和选用方式，ueditor还可以通过设置js文件来选用功能。
+  freemarker在使用的时候，需要在程序中标注ftl文件路径，已经生成文件的名称和格式。
+  freemarker可以指定文件样式，然后用java编写填充内容。
+6 使用case when then else end
+  如 case when 'dog' then '狗'
+          when 'cat' then '猫'
+          else '其他动物'
+          end '动物'
+           
