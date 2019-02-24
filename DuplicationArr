@@ -1,0 +1,105 @@
+3. 数组中重复的数字
+  题目一：找出数组中重复的数字
+    在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复的次数。
+    请找出数组中任意一个重复的数字。例如如果输入长度为7的数组{2,3,1,0,2,5,3},那么对应的输出是重复的数字2或者3。 
+    要求：①判断输入数组的有效性②数组每个位置都需要进行处理校验之后才能轮到下一位数。
+    实现：遍历数组arr，如果arr[i]上的数字为m，且i!=m，则将arr[m] = arr[i]，否则对下一个进行访问
+    public class Solution{
+      private static int duplication;
+      public static boolean duplicate(int[] arr){
+        if(arr.length==0||arr==null){
+          return false;
+        }
+        for(int i=0; i<arr.length; i++){
+          if(arr[i]<0||arr[i]>arr.length-1){
+            return false;
+          }
+        }
+        for(int i=0; i<arr.length; i++){
+          while(arr[i]!=i){
+            if(arr[i]==arr[arr[i]]){
+              duplication = arr[i];
+              return true;
+            }
+            int temp = arr[i];
+            arr[i] = arr[temp];
+            arr[temp] = temp;
+          }
+        }
+        return false;
+      }
+    }
+    
+  题目二：在一个长度为n+1的数组里的所有数字都在1~n的范围内，所以数组中至少有一个数字是重复的。请找出数组中任意一个重复的数字，但是不能修改输入的数组。
+    例如，如果输入长度为8的数组{2,3,5,4,3,2,6,7}，那么对应的输出是重复的数字2或者3。
+    要求：①判断输入数组的有效性②不能修改数组找出重复的数字
+    实现：
+      解法一：空间换时间，用一个长度为arr.length的数组temp对原先数组进行存储，如果arr[i]等于temp[arr[i]]，则有重复，若不等于，则将数字arr[i]赋给temp[arr[i]]。
+      public class Solution{
+        private static int duplication;
+        public static boolean duplication(int[] arr){
+          if(arr.length==0||arr==null){
+            return false;
+          }
+          for(int i=0; i<arr.length; i++){
+            if(arr[i]<0||arr[i]>arr.length-1){
+              return false;
+            }
+          }
+          int[] temp = new int[arr.length];
+          for(int i=0; i<arr.length; i++){
+            if(arr[i]==temp[arr[i]]){
+              duplication = arr[i];
+              return true;
+            }
+            temp[arr[i]] = arr[i];
+          }
+          return -1;
+        }
+      }
+      
+      解法二：时间换空间，使用二分查找的方式进行查找，假设有n个数字，则先取中间数m，则先对0-m的数字进行查找，如果在一定范围内符合条件的数字超过了m，则判定有重复的数字在0-m之中。
+      public class Solution{
+        private static int duplication;
+        public static boolean duplication(int[] arr){
+          if(arr.length==0||arr==null){
+            return false;
+          }
+          for(int i=0; i<arr.length; i++){
+            if(arr[i]<0 || arr[i]>arr.length-1){
+              return false;
+            }
+          }
+          int start = 0, end = arr.length-1, count = 0, mid = 0;
+          while(start <= end){
+            if(start == end){
+              count = countRange(arr, start, end);
+              if(count>1){
+                return true;
+              }else{
+                break;
+              }
+            }
+            mid = (start + end)/2;
+            count = countRange(arr, start, mid);
+            if(count > mid - start + 1){
+              end = mid;
+            }else{
+              start = mid + 1;
+            }
+          }
+          return -1;
+        }
+        
+        private static int countRange(int[] arr, int start, int end){
+          int count = 0;
+          for(int i=0; i<=arr.length; i++){
+            if(arr[i] >= start && arr[i] <= end){
+              count++;
+            } 
+          }
+          return count;
+        }
+      }
+      
+      
