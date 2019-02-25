@@ -1,0 +1,43 @@
+6. 从尾到头打印链表
+  题目描述：
+  输入一个链表，从尾到头打印链表每个节点的值。返回新链表。
+  要求：①保证链表在头结点为空时也可以进行运行②无论是输入多个结点的链表还是单结点链表都可以执行
+  实现：
+    解法一：因为是从尾到头打印链表，所以可以使用“先进后出”的栈结构来实现。
+    import java.util.Stack;
+    class Node{
+      public Node next;
+      public int value;
+      Node(int value){
+        this(null, value);
+      }
+      Node(Node next, int value){
+        this.next = next;
+        this.value = value;
+      }
+      Node(){
+      }
+    }
+    public class Solution{
+      private Stack s = new Stack();
+      public void printReverse(Node node) {
+        if(node == null) {
+          return;
+        }
+        while(node!=null) {
+          s.push(node.value);
+          node = node.next;
+        }
+        while(!s.isEmpty()) {
+          System.out.println(s.pop());
+        }
+      }
+    }
+    
+    解法二：递归，每次访问到这个结点的时候，先递归输出它后面的结点。但是当链表很长的时候，这个方法会导致函数调用的层级很深，可能会有栈溢出的风险。
+    public void recursive(Node node) {
+		  if(node.next!=null) {
+			  recursive(node.next);
+		  }
+		  System.out.println(node.value);
+	  }
