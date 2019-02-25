@@ -20,15 +20,31 @@
     解法二：使用String的内部结构char[]进行替换，前提是char[]足够大，假设此处的char[] = new char[100]。先遍历一次找到空格的个数，然后算出替换之后的字符串长度，之后再用两个指针将字符进行移动，以及更改待替换字符。
     public class Solution{
       public char[] replease(String str, String re){
-        char[] ch = str.toChar();
-        if(ch.length==0 || ch==null){
+        char[] ch = str.toCharArray();
+        if(ch.length == 0 || ch == null){
           return ch;
         }
         int blank = 0; //空格的总数
         for(int i=0; i<ch.length; i++){
-          blank++;
+          if(ch[i]==' ')
+            blank++;
         }
-        int sum = 0;  //替换后字符串长度
-        
+        int sum = ch.length + (re.length() - 1) * blank;  //替换后字符串长度
+        char[] chReplease = new char[sum];  //创建一个新的字符数组，用于存放替换后的字符串
+        System.out.println(ch.length+"...."+chReplease.length);
+        int p1 = ch.length - 1;  //指针，放在新字符串中原字符串的最后位置
+        int p2 = sum - 1;  //指针，放在新字符串的最后位置
+        while(p1>=0&&p2>=0) {
+          if(ch[p1] == ' ') {
+            for(int i = re.length()-1; i >= 0; i--) {
+              chReplease[p2--] = re.charAt(i);
+            }
+            p1--;
+          }else {
+            chReplease[p2--] = ch[p1--];
+          }
+        }
+
+        return chReplease;
       }
     }
