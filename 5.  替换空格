@@ -1,0 +1,34 @@
+5. 替换空格
+  题目：请实现一个函数，把字符串中的每个空格替换成“%20”。例如输入“We are happy”，则输出”We%20are%20happy”。
+  要求：①确定字符串的合法性②逆向思维③Java中jdk的特性。
+  实现：
+    解法一：使用StringBuilder的append方法。
+    public class Solution{
+      private StringBuilder sb;
+      public StringBuilder replease(String str, String re){
+        for(int i=0; i<str.length; i++){
+          if(str.charAt(i) == ' '){
+            sb.append(re);
+          }else{
+            sb.append(str.charAt(i);
+          }
+        }
+        return sb;
+      }
+    }
+    
+    解法二：使用String的内部结构char[]进行替换，前提是char[]足够大，假设此处的char[] = new char[100]。先遍历一次找到空格的个数，然后算出替换之后的字符串长度，之后再用两个指针将字符进行移动，以及更改待替换字符。
+    public class Solution{
+      public char[] replease(String str, String re){
+        char[] ch = str.toChar();
+        if(ch.length==0 || ch==null){
+          return ch;
+        }
+        int blank = 0; //空格的总数
+        for(int i=0; i<ch.length; i++){
+          blank++;
+        }
+        int sum = 0;  //替换后字符串长度
+        
+      }
+    }
