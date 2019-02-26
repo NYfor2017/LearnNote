@@ -1,0 +1,96 @@
+7. 重建二叉树
+  题目： 输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。
+        例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。
+  要求：①判断序列的有效性②后序遍历打印重建的二叉树
+  实现：
+  public class Solution {
+    public static BinaryTreeNode reconstructe(int[] preOrder, int[] inOrder){
+      //判断序列的有效性
+      if(preOrder == null || inOrder == null || preOrder.length == 0 || inOrder.length == 0 ){
+        return null;
+      }
+
+      BinaryTreeNode root = new BinaryTreeNode(preOrder[0]);
+      root.setLeft(null);
+      root.setRight(null);
+
+      //得到左子树结点数
+      int leftSum = 0;
+      for(int i=0; i<preOrder.length; i++){
+        if(inOrder[i] == preOrder[0]){
+          break;
+        }
+        leftSum++;
+      }
+
+      //得到左子树结点
+      if(leftSum > 0){
+        int[] leftPreOrder = new int[leftSum];
+        int[] leftInOrder = new int[leftSum];
+        for(int i=0; i<leftSum; i++){
+          leftPreOrder[i] = preOrder[i+1];
+          leftInOrder[i] = inOrder[i];
+        }
+        BinaryTreeNode leftRoot = reconstructe(leftPreOrder, leftInOrder);
+        root.setLeft(leftRoot);
+      }
+
+      //得到右子树结点
+      int rightSum = preOrder.length - 1 - leftSum;
+      if(rightSum > 0){
+        int[] rightPreOrder = new int[rightSum];
+        int[] rightInOrder = new int[rightSum];
+        for(int i=0; i<rightSum; i++){
+          rightPreOrder[i] = preOrder[leftSum+1+i];
+          rightInOrder[i] = inOrder[leftSum+1+i];
+        }
+        BinaryTreeNode rightRoot = reconstructe(rightPreOrder, rightInOrder);
+        root.setRight(rightRoot);
+      }
+      return root;
+    }
+    public static void print(BinaryTreeNode root){
+      if(root!=null){
+        print(root.getLeft());
+        print(root.getRight());
+        System.out.println(root.getValue());
+      }
+    }
+    public static void main(String[] args) {
+      int[] preOrder = {10, 6, 4, 8, 14, 12, 16};
+      int[] inOrder = {4, 6, 8, 10, 12, 14, 16};
+      BinaryTreeNode root = reconstructe(preOrder, inOrder);
+      print(root);
+    }
+  }
+
+  class BinaryTreeNode{
+    private int value;
+    private BinaryTreeNode left;
+    private BinaryTreeNode right;
+    public BinaryTreeNode(int value){
+      this.value = value;
+    }
+    public BinaryTreeNode(){
+
+    }
+    public int getValue() {
+      return value;
+    }
+    public void setValue(int value) {
+      this.value = value;
+    }
+    public BinaryTreeNode getLeft() {
+      return left;
+    }
+    public void setLeft(BinaryTreeNode left) {
+      this.left = left;
+    }
+    public BinaryTreeNode getRight() {
+      return right;
+    }
+    public void setRight(BinaryTreeNode right) {
+      this.right = right;
+    }
+
+  }
