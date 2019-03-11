@@ -1,0 +1,38 @@
+14.剪绳子
+  题目：给定一根长度为n的绳子，请把绳子剪成m段（m、n都是整数，n>1并且m>1），每段绳子的长度记为k[0],k[1],…,k[m]。请问k[0]* k[1] * … *k[m]可能的最大乘积是多少？ 
+      例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
+  要求：①对输入数据的合法性进行验证②对输入2，3的情况进行区别处理③使用动态规划的方法（最优解，就自下而上每个都保存最优解，不递归运算）
+  实现：
+  public class Test {
+      public int fun(int n){
+        if(n<=1){
+          return 0;
+        }
+        if(n==2){
+          return 1;
+        }
+        if(n==3){
+          return 2;
+        }
+        int[] product = new int[n+1];
+        product[0] = 0;
+        product[1] = 1;
+        product[2] = 2;
+        product[3] = 3;
+        for(int i=4;i<product.length;i++){
+          product[i] = i;
+          for(int j=0;j<i;j++){
+            int num = (product[j]*product[i-j]);
+            if(product[i]<num){
+              product[i] = num;
+            }
+          }
+        }
+        return product[n];
+      }
+
+      public static void main(String[] args) {
+        Test t = new Test();
+        System.out.println(t.fun(8));
+      }
+    }
