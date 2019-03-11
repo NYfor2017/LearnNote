@@ -1,0 +1,42 @@
+12.矩阵中的路径
+    题目：请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩   阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如 a b c e s f c s a d e e 矩阵中包含一条字符串”bcced”的路径，但是矩阵中不包含”abcb”路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+    要求：①对传入数据的合法性进行校验②避免陷入死循环
+    实现：
+public class Solution {
+    boolean hasPath(char[] matrix, int rows, int cols, char[] str) {
+      if (matrix.length == 0 || matrix == null || cols < 0 || rows < 0 || str == null || str.length == 0) {
+        return false;
+      }
+
+      boolean[] visited = new boolean[cols * rows];
+      for (int i = 0; i < visited.length; i++) {
+        visited[i] = false;
+      }
+      for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+          if (hasPathCore(matrix, rows, cols, str, 0, i, j, visited)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    private boolean hasPathCore(char[] matrix, int rows, int cols, char[] str, int index, int row, int col, boolean[] visited) {
+      if (index >= str.length) {
+        return true;
+      }
+      if (matrix.length > 0 && rows > 0 && row < rows && cols > 0 && col < cols && visited.length > 0) {
+        visited[row * cols + col] = true;
+      }
+      boolean hasPath = false;
+      hasPath = hasPathCore(matrix, rows, cols, str, index + 1, row + 1, col, visited) ||
+          hasPathCore(matrix, rows, cols, str, index + 1, row - 1, col, visited) ||
+          hasPathCore(matrix, rows, cols, str, index + 1, row, col + 1, visited) ||
+          hasPathCore(matrix, rows, cols, str, index + 1, row + 1, col - 1, visited);
+      if(!hasPath){
+        visited[row*cols+col] = false;
+      }
+      return hasPath;
+    }
+  }
