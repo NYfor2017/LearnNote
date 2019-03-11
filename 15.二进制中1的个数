@@ -1,0 +1,16 @@
+15.二进制中1的个数
+  题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2。
+  要求：①无论是正整数还是非正整数都可以使用。
+  实现：
+  public class Test {
+    public int func(int num){
+      int count = 0;
+      while(num != 0){
+        count++;
+        //num & (num - 1) ： 可以将num二进制表示中最右边的1变为0
+        num = num & (num - 1);
+        System.out.println(num);
+      }
+      return count;
+    }
+  }
