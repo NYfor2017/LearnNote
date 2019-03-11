@@ -2,7 +2,8 @@
   题目：地上有一个m行n列的方格。一个机器人从坐标（0,0）的格子开始移动，它每次可以向左，向右，向上，向下移动一格，但不能进入行坐标和列坐标的位数之和大于k的格子。例如：当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18；但它不能进入方格（35,38），因为3 + 5+3+8 = 19.请问该机器人最多能到达多少个格子？
   要求：①对输入数据进行合法性判断②必须用回溯法③注意判断机器人是否可达的条件要合理④避免重复走过
   实现：
-  public class Test {
+  public class Test { 
+    //实现入口
     int hasPath(int m, int n, int sum) {
       if (m <= 0 || n <= 0 || sum < 0) {
         return 0;
@@ -14,7 +15,7 @@
       int index = hasPathCore(m, n, sum, 0, 0, visited);
       return index;
     }
-
+    //路径方法
     private int hasPathCore(int m, int n, int sum, int p, int q, boolean[] visited) {
       int count = 0;
       if (check(m, n, sum, p, q, visited)) {
@@ -25,14 +26,14 @@
       }
       return 0;
     }
-
+    //检查是否可行
     private boolean check(int m, int n, int sum, int p, int q, boolean[] visited) {
       if (p >= 0 && q >= 0 && p < m && q < n && getSum(p) + getSum(q) < sum && !visited[n * p + q]) {
         return true;
       }
       return false;
     }
-
+    //计算各个位数之和
     private int getSum(int num) {
       int sum = 0;
       while (num > 0) {
