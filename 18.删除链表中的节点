@@ -1,0 +1,91 @@
+18.删除链表中的节点
+  题目1：给定单链表的头指针和一个节点指针，定义一个函数在O(1)时间删除该节点。
+  要求：①对输入的节点进行合法性检查②注意链表只有一个节点的情况③注意删除的节点是链表最后一个节点的情况
+  实现：
+    public class AlgorithmTest {
+      public void delete(Node head, Node point) {
+        //节点的合法性检查
+        if (head == null || point == null) {
+          return;
+        }
+        //整个链表只有一个节点
+        if (head.next == null && point.next == null) {
+          head = null;
+          return;
+        }
+        if (point.next == null) {
+          Node node = head;
+          while (node.next != point) {
+            node = node.next;
+          }
+          node.next = null;
+          return;
+        }
+        Node p = point.next;
+        point.val = p.val;
+        point.next = point.next.next;
+      }
+
+      public void show(Node head) {
+        Node n = head;
+        while (n != null) {
+          System.out.println(n.val);
+          n = n.next;
+        }
+      }
+}
+
+class Node {
+	Node next;
+	int val;
+
+	public Node() {
+
+	}
+
+	public Node(int val) {
+		this.val = val;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+	public int getVal() {
+		return val;
+	}
+
+	public void setVal(int val) {
+		this.val = val;
+	}
+}
+
+  题目2：在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。
+  实现：
+  public Node repeatDelete(Node head){
+			if(head==null){
+				return null;
+			}
+			Node pre = new Node();
+			pre.next = head;
+			//必须留出一个没有进行操作的指针，用于返回操作后的head
+			Node temp = pre.next;
+			Node now = head;
+			while(now!=null){
+				if(now.next!=null&&now.val==now.next.val){
+					while(now.next!=null&&now.val==now.next.val){
+						now = now.next;
+					}
+					pre.next = now.next;
+				}else{
+					pre = now;
+				}
+				//前面操作完了之后now还是停留在重复数据的位置，同无重复数据的操作一样，now向前走一步
+				now = now.next;
+			}
+			return temp;
+	}
