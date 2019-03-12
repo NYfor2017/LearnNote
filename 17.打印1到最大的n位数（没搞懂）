@@ -1,0 +1,56 @@
+17.打印1到最大的n位数（没搞懂）
+  题目：输入数字n,按顺序打印出从1到最大的n位十进制数，比如输入3,则打印出1,2,3一直到最大的3位数即999。
+  实现：
+public class AlgorithmTest {
+	//打印数
+	public void printNumber(StringBuffer sb){
+		boolean flag = false;
+
+		for(int i = 0; i < sb.length(); i++){
+			if(!flag && sb.charAt(i) != '0'){
+				flag = true;
+			}
+			if(flag){
+				System.out.print(sb.charAt(i));
+			}
+		}
+		if(flag){
+			System.out.println();
+
+		}
+	}
+
+	//打印从1到n位的最大数
+	public void Print1ToMaxOfNDigits(int n){
+		if(n <= 0){
+			return ;
+
+		}
+
+		//初始化数字（用StringBuffer表示）
+		StringBuffer sb = new StringBuffer(n);
+		for(int i = 0; i < n; i++){
+			sb.append('0');
+		}
+
+		print1ToMaxOfNDigits_Recursely(sb, n, 0);
+	}
+
+	public void print1ToMaxOfNDigits_Recursely(StringBuffer sb, int n, int index){
+		if(index == n){
+			printNumber(sb);
+			return ;
+		}
+
+		for(int i = 0; i < 10; i++){
+			sb.setCharAt(index, (char)(i+'0'));
+			print1ToMaxOfNDigits_Recursely(sb, n, index+1);
+		}
+	}
+
+	public static void main(String[] args) {
+		AlgorithmTest test = new AlgorithmTest();
+		test.Print1ToMaxOfNDigits(3);
+	}
+
+}
